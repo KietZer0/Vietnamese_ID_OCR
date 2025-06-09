@@ -2,8 +2,8 @@
 import pytesseract
 import re
 from unidecode import unidecode
-from .config import TESSERACT_FIELD_CONFIG
-from .utils import preprocess_for_ocr
+from config import TESSERACT_FIELD_CONFIG
+from utils import preprocess_for_ocr
 
 def ocr_field_roi(image_roi, field_name, lang='vie'):
     """Performs OCR on a given image ROI for a specific field."""

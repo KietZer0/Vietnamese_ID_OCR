@@ -3,8 +3,8 @@ import cv2
 import pytesseract
 import numpy as np
 from unidecode import unidecode
-from .config import FIELD_KEYWORDS, FIELD_ROI_OFFSETS
-from .utils import display_image # Assuming utils.py is in the same directory or package
+from config import FIELD_KEYWORDS, FIELD_ROI_OFFSETS
+from utils import display_image # Assuming utils.py is in the same directory or package
 
 def get_all_text_data(image, lang='vie+eng', config='--psm 11'):
     """Extracts all text data (text, bounding boxes) from an image."""

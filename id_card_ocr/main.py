@@ -1,11 +1,11 @@
 # main.py
 import cv2
 import argparse
-from .card_preprocessor import crop_and_warp_card, extract_face_roi
-from .field_locator import locate_all_fields
-from .text_extractor import extract_and_clean_field
-from .config import FACE_ROI_FACTORS
-from .utils import display_image # Assuming utils.py is in the same directory or package
+from card_preprocessor import crop_and_warp_card, extract_face_roi
+from field_locator import locate_all_fields
+from text_extractor import extract_and_clean_field
+from config import FACE_ROI_FACTORS
+from utils import display_image # Assuming utils.py is in the same directory or package
 
 
 def main(image_path, debug=False):

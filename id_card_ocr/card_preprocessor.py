@@ -1,7 +1,7 @@
 # card_preprocessor.py
 import cv2
 import numpy as np
-from .utils import perspective_transform, display_image # Assuming utils.py is in the same directory or package
+from utils import perspective_transform, display_image # Assuming utils.py is in the same directory or package
 
 def find_card_contour(image, debug=False):
     """Finds the largest rectangular contour, assumed to be the ID card."""
