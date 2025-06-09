@@ -2,12 +2,30 @@
 import cv2
 import numpy as np
 
+try:
+    from google.colab.patches import cv2_imshow
+    IN_COLAB = True
+except ImportError:
+    IN_COLAB = False
+
 def display_image(window_name, image, wait_key=0):
-    """Displays an image using OpenCV."""
-    cv2.imshow(window_name, image)
-    cv2.waitKey(wait_key)
-    if wait_key == 0:
-        cv2.destroyWindow(window_name)
+    """Displays an image using OpenCV or Colab's cv2_imshow."""
+    if IN_COLAB:
+        # Convert BGR to RGB for Colab display if needed
+        # if image.shape[2] == 3:
+        #     image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+        # else:
+        #     image_rgb = image
+        cv2_imshow(image) # cv2_imshow handles BGR correctly
+    else:
+        cv2.imshow(window_name, image)
+        key_pressed = cv2.waitKey(wait_key)
+        if wait_key == 0 or key_pressed != -1: # Destroy window if key pressed or indefinite wait
+            try:
+                cv2.destroyWindow(window_name)
+            except cv2.error:
+                # Window might have been closed manually or not exist
+                pass
 
 def order_points(pts):
     """Orders a list of 4 points for perspective transform:
