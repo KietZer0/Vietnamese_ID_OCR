@@ -1,6 +1,7 @@
 # utils.py
 import cv2
 import numpy as np
+import os
 
 try:
     from google.colab.patches import cv2_imshow
@@ -8,23 +9,30 @@ try:
 except ImportError:
     IN_COLAB = False
 
+DEBUG_IMAGE_DIR = "debug_images"
+if IN_COLAB and not os.path.exists(DEBUG_IMAGE_DIR):
+    os.makedirs(DEBUG_IMAGE_DIR)
+
 def display_image(window_name, image, wait_key=0):
-    """Displays an image using OpenCV or Colab's cv2_imshow."""
+    """Displays an image using OpenCV or Colab's cv2_imshow, or saves it in Colab script mode."""
     if IN_COLAB:
-        # Convert BGR to RGB for Colab display if needed
-        # if image.shape[2] == 3:
-        #     image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-        # else:
-        #     image_rgb = image
-        cv2_imshow(image) # cv2_imshow handles BGR correctly
+        # Sanitize window_name for filename
+        safe_filename = "".join(c if c.isalnum() else "_" for c in window_name) + ".png"
+        output_path = os.path.join(DEBUG_IMAGE_DIR, safe_filename)
+        try:
+            cv2.imwrite(output_path, image)
+            print(f"Debug image saved: {output_path}")
+            # You can still try to display it if running interactively in a notebook cell
+            # cv2_imshow(image)
+        except Exception as e:
+            print(f"Error saving/displaying debug image {window_name}: {e}")
     else:
         cv2.imshow(window_name, image)
         key_pressed = cv2.waitKey(wait_key)
-        if wait_key == 0 or key_pressed != -1: # Destroy window if key pressed or indefinite wait
+        if wait_key == 0 or key_pressed != -1:
             try:
                 cv2.destroyWindow(window_name)
             except cv2.error:
-                # Window might have been closed manually or not exist
                 pass
 
 def order_points(pts):
